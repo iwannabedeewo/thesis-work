@@ -1,0 +1,32 @@
+<!DOCTYPE xml>
+<project name="XML2PLCOpen Converter" basedir="." default="makeXML">
+
+	<property file="${basedir}/build.properties"/>
+	
+	<target name="init" description="Echoes details and properties">
+		<echo/>
+		<echo>${ant.project.name}</echo>
+		<echo>Project by: ${author}</echo>
+		<echo>Ant version: ${ant.version}</echo>
+		<echo>${description}</echo>
+		<echo/>
+	</target>
+	
+    <target name="clean" description="Deletes previous builds">
+	    <echo>Cleaning...</echo>
+		<delete dir="${dest}"/>
+    </target>
+
+    <target name="makeXML" depends="init,clean" description="Generates PLCOpen XML from template with Freemarker">
+		<echo>Starting conversion...</echo>
+		<taskdef name="freemarker" classname="freemarker.ext.ant.FreemarkerXmlTask"> 
+			<classpath>
+				<pathelement location="${freemarker.path}/freemarker.jar" />
+			</classpath>
+		</taskdef>
+		<mkdir dir="${dest}" />
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		    	template="${lib}/${template.filename}.ftl" extension=".plcopen.xml" />
+    </target>
+
+</project>

@@ -1,0 +1,34 @@
+
+TODO:
+	- check Freemarker file import 
+	- xsd writing
+
+
+DOCUMENTATION: 
+	Task types: 
+		cyclic:
+			CODESYS processes the task in cycles. The cycle time of the task is defined in the input field
+			param: - interval (example: t#20ms)
+		event:	
+			CODESYS starts processing the task as soon as the global variable defined in the input field Event contains a rising edge. 
+			param: - event (example: ST_TEST.input1)
+		freewheeling:
+			CODESYS starts processing the task again automatically in a continuous loop at program start and at the end of a complete pass. Cycle time is not defined.
+			param: - NO PARAM REQ
+		status:
+			CODESYS starts task processing if the variable defined in the Event input field yields the Boolean value TRUE.
+			param: - event (example: ST_TEST.input1)
+			
+Optionals:
+
+	<coordinateAssignment> <!-- Optional, Default: x = 1, y = 1 --> <!-- Only needed for display rate in IDE -->
+		<FBD x="1" y="1"/>
+		<LD x="1" y="1"/>
+		<SFC x="1" y="1"/>
+	</coordinateAssignment>
+	
+	<modificationDateTime date="2016-02-04" time="19:01:58"/> <!-- Optional,  Default: modificationDateTime = creationDateTime -->
+	
+	<watchdog enabled="false" timeUnit="ms" sensitivity="1"/> <!-- Optional, Default: false, ms, 1-->
+	
+	

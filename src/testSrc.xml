@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE xml>
+<plcProject
+    xmlns:bdevossaPLC="http://www.w3.org/2001/XMLSchema-instance"
+    bdevossaPLC:noNamespaceSchemaLocation="..\lib\bdevossa_plcopen.xsd">
+
+	<projectInfo projectName="First Test" productName="TEST ST PLC" companyName="Almighty ZRT11" version="0.1.23.456" 
+	    creationDate="1990-01-01" creationTime="12:00:00" git="http://github.com/myProject" interfaceBaseAddress="4000"> 
+			<modificationDateTime date="2016-04-10" time="17:37:00"/>
+			<authors> 
+				<author name="a1" telNumber="06123456789" email="a1@a1.com"/>  
+				<author name="a2" telNumber="+36123456789" email="a2@a1.com"/> 
+			</authors>
+			<customer name="Pistám" country="Hungary" zip="5900" city="Orosháza" address="asd" telNumber="+36123456789" email="test@pelda.com">
+				<contact name="c1" role=""  telNumber="+36123456789" email="cont1@pelda.com"/>
+				<contact name="c2" role="" telNumber="06301239876" email="cont22@test.com"/> 
+			</customer> 
+	</projectInfo>
+		
+	<application> 
+		<emergency marker="m0">
+			<INPUT bit="x0"/>
+			<INPUT bit="x1"/> 
+			<INPUT bit="x2"/>
+			<OUTPUT bit="y1"/>
+		</emergency>
+		
+		<task name="ExampleTask" interval="20" intervalUnit="ms" priority="1" type="cyclic">
+			<pous> 
+				<Motor name="Ontarto" priority="1">
+					<INPUT address="IX0.0"/>
+					<STOP address="MX0.0"/>
+					<OUTPUT address="QX0.0"/>
+				</Motor> 
+				 
+				<StateIn name="StateInExample" priority="2">
+					<INPUT address="IX0.0"/>
+					<OUTPUT address="QX0.0"/>
+				</StateIn>
+			</pous>
+		</task>
+		
+	</application>
+</plcProject>
