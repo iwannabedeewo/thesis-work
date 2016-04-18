@@ -4,7 +4,7 @@
     bdevossaPLC:noNamespaceSchemaLocation="..\lib\bdevossa_plcopen.xsd">
 
 	<projectInfo projectName="First Test" productName="TEST ST PLC" companyName="Almighty ZRT11" version="0.1.23.456" 
-	    creationDate="1990-01-01" creationTime="12:00:00" git="http://github.com/myProject" interfaceBaseAddress="4000"> 
+	    creationDate="1990-01-01" creationTime="12:00:00" git="https://github.com/iwannabedeewo/thesis-work" interfaceBaseAddress="4000"> 
 			<modificationDateTime date="2016-04-10" time="17:37:00"/>
 			<authors> 
 				<author name="a1" telNumber="06123456789" email="a1@a1.com"/>  
