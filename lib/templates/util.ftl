@@ -1,6 +1,7 @@
 <#assign project = document.plcProject>
 <#assign info = project.projectInfo>
-<#assign task = project.application.task>
+<#assign app = project.application>
+<#assign task = app.task>
 <#macro getHighestPriority list>
 	<#assign prio = "1000">
 	<#list list.* as pou>

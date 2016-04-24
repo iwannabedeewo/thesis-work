@@ -1,0 +1,386 @@
+(* @END_DECLARATION := '0' *)
+(****************************************************************************************************************************
+	POU Title:  	Fuzzy_Logic(PRG)
+   
+ 	Designer:	K. Presssley
+	Date:		01/09/09
+		
+	Function:	The function of this program is to implement a fuzzy logic control algorithm for process control..  
+****************************************************************************************************************************)
+(***** Loop Update Logic *****)
+(*  Get the Loop Update Time, ensure that lower limit of 1 is not exceeded and convert it into a time variable  *)
+	IF Update_Time < 1 THEN
+		Loop_Update_Time := 1;
+	ELSE
+		Loop_Update_Time := Update_Time;
+	END_IF;
+
+	Loop_Update_mSec := WORD_TO_TIME(Loop_Update_Time);
+
+	IF NOT TMR_Loop_Update.Q THEN
+		Loop_Update_Trigger := TRUE;
+	ELSE
+		Loop_Update_Trigger := FALSE;
+	END_IF;
+
+	TMR_Loop_Update( IN := Loop_Update_Trigger, PT:= Loop_Update_mSec );
+ 	  Loop_Update_ONS( CLK := TMR_Loop_Update.Q);
+
+
+
+(***** Calculate the Process Error and Process Error Rate *****)
+	IF Loop_Update_ONS.Q THEN
+	  (* Process Error Calculation *)
+		Process_Error := SP - PV;
+
+	  (* Process Error Rate Calculation *)
+	 	Error_Rate_PV1 := Error_Rate_PV2;
+		  Error_Rate_PV2 := PV;
+		   Process_Error_Rate := (Error_Rate_PV2 - Error_Rate_PV1) / (Loop_Update_Time);
+	END_IF;
+
+
+(***** Membership Zone Logic *****)
+(* Error Zone Identification Logic - This logic will indentify which Error Zone the Process Value is currently in *)
+	(* Negative Large Membership Zone *)
+		IF Process_Error <= MV_LN THEN
+			NL_Error := TRUE;
+		ELSE
+			NL_Error := FALSE;
+		END_IF;
+
+	(* Negative Medium Membership Zone *)
+		IF Process_Error > MV_LN AND Process_Error <= MV_MN THEN
+			NM_Error := TRUE;
+		ELSE
+			NM_Error := FALSE;
+		END_IF;
+
+	(* Negative Small Membership Zone *)
+		IF Process_Error > MV_MN AND Process_Error <= MV_SN THEN
+			NS_Error := TRUE;
+		ELSE
+			NS_Error := FALSE;
+		END_IF;
+
+	(* Positive Small Membership Zone *)
+		IF Process_Error < MV_MP AND Process_Error >= MV_SP THEN
+			PS_Error := TRUE;
+		ELSE
+			PS_Error := FALSE;
+		END_IF;
+
+	(* Positive Medium Membership Zone *)
+		IF Process_Error < MV_LP AND Process_Error >= MV_MP THEN
+			PM_Error := TRUE;
+		ELSE
+			PM_Error := FALSE;
+		END_IF;
+
+	(* Positive Large Membership Zone *)
+		IF Process_Error >= MV_LP THEN
+			PL_Error := TRUE;
+		ELSE
+			PL_Error := FALSE;
+		END_IF;
+
+(* Error Rate Zone Identification Logic - This logic will indentify which Error Rate Zone the Process Value is currently in *)
+	(* Negative Large Error Rate Membership Zone - The Error Rate is Decreasing Quickly *)
+		IF Process_Error_Rate <= LN_Error_Rate THEN
+			NL_Error_Rate_Ind := TRUE;
+		ELSE
+			NL_Error_Rate_Ind := FALSE;
+		END_IF;
+
+	(* Negative Medium Error Rate Membership Zone - The Error Rate is Decreasing *)
+		IF Process_Error_Rate > LN_Error_Rate AND Process_Error_Rate <= MN_Error_Rate THEN
+			NM_Error_Rate_Ind := TRUE;
+		ELSE
+			NM_Error_Rate_Ind := FALSE;
+		END_IF;
+
+	(* Negative Small Error Rate Membership Zone  - The Error Rate is Decreasing slowly *)
+		IF Process_Error_Rate > MN_Error_Rate AND Process_Error_Rate < 0.0 THEN
+			NS_Error_Rate_Ind := TRUE;
+		ELSE
+			NS_Error_Rate_Ind := FALSE;
+		END_IF;
+
+	(* Positive Small Error Rate Membership Zone  - The Error Rate is Increasing slowly *)
+		IF Process_Error_Rate < MP_Error_Rate AND Process_Error_Rate >= 0.0 THEN
+			PS_Error_Rate_Ind := TRUE;
+		ELSE
+			PS_Error_Rate_Ind := FALSE;
+		END_IF;
+
+	(* Positive Meduim Error Rate Membership Zone  - The Error Rate is Increasing *)
+		IF Process_Error_Rate < LP_Error_Rate AND Process_Error_Rate >= MP_Error_Rate THEN
+			PM_Error_Rate_Ind := TRUE;
+		ELSE
+			PM_Error_Rate_Ind := FALSE;
+		END_IF;
+
+	(* Positive Large Error Rate Membership Zone  - The Error Rate is Increasing Quickly  *)
+		IF Process_Error_Rate >= LP_Error_Rate THEN
+			PL_Error_Rate_Ind := TRUE;
+		ELSE
+			PL_Error_Rate_Ind := FALSE;
+		END_IF;
+
+
+(***** Fuzzy Logic Rules *****)
+(* This section of logic contains all of the Fuzzy Logic rules required to produce the control action *)
+	(* PV is Far Above SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND NL_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 1000.0;
+		END_IF;
+
+	(* PV is Far Above SP and Increasing *)
+		IF Loop_Update_ONS.Q AND NL_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 300.0;
+		END_IF;
+
+	(* PV is Far Above SP and Increasing slowly *)
+		IF Loop_Update_ONS.Q AND NL_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 250.0;
+		END_IF;
+
+	(* PV is Far Above SP and Decreasing slowly *)
+		IF Loop_Update_ONS.Q AND NL_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 300;
+		END_IF;
+
+	(* PV is Far Above SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND NL_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 250.0;
+		END_IF;
+
+	(* PV is Far Above SP and Decreasing Quickly *)
+		IF Loop_Update_ONS.Q AND NL_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 100.0;
+		END_IF;
+
+	(* PV is Above SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND NM_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 250.0;
+		END_IF;
+
+	(* PV is Above SP and Increasing *)
+		IF Loop_Update_ONS.Q AND NM_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 100.0;
+		END_IF;
+
+	(* PV is Above SP and Increasing slowly *)
+		IF Loop_Update_ONS.Q AND NM_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 50.0;
+		END_IF;
+
+	(* PV is Above SP and Decreasing Slowly *)
+		IF Loop_Update_ONS.Q AND NM_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 250.0;
+		END_IF;
+
+	(* PV is Above SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND NM_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 100.0;
+		END_IF;
+
+	(* PV is Above SP and Decreasing Quickly *)
+		IF Loop_Update_ONS.Q AND NM_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 50.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND NS_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 20.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Increasing *)
+		IF Loop_Update_ONS.Q AND NS_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 10.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Increasing slowly*)
+		IF Loop_Update_ONS.Q AND NS_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 5.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Decreasing slowly*)
+		IF Loop_Update_ONS.Q AND NS_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 20.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND NS_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 10.0;
+		END_IF;
+
+	(* PV is Slightly Above SP and Decreasing Quickly*)
+		IF Loop_Update_ONS.Q AND NS_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV - 5.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND PS_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 5.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Increasing *)
+		IF Loop_Update_ONS.Q AND PS_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 10.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Increasing Slowly *)
+		IF Loop_Update_ONS.Q AND PS_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 20.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Decreasing Slowly *)
+		IF Loop_Update_ONS.Q AND PS_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 20.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND PS_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 10.0;
+		END_IF;
+
+	(* PV is Slightly Below SP and Decreasing Quickly *)
+		IF Loop_Update_ONS.Q AND PS_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 5.0;
+		END_IF;
+
+	(* PV is Below SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND PM_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 50.0;
+		END_IF;
+
+	(* PV is Below SP and Increasing *)
+		IF Loop_Update_ONS.Q AND PM_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 20.0;
+		END_IF;
+
+	(* PV is Below SP and Increasing Slowly *)
+		IF Loop_Update_ONS.Q AND PM_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 10.0;
+		END_IF;
+
+	(* PV is Below SP and Decreasing Slowly *)
+		IF Loop_Update_ONS.Q AND PM_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 50.0;
+		END_IF;
+
+	(* PV is Below SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND PM_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 100.0;
+		END_IF;
+
+	(* PV is Below SP and Decreasing Quickly *)
+		IF Loop_Update_ONS.Q AND PM_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 250.0;
+		END_IF;
+
+	(* PV is Far Below SP and Increasing Quickly *)
+		IF Loop_Update_ONS.Q AND PL_Error AND PL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 100.0;
+		END_IF;
+
+	(* PV is Far Below SP and Increasing *)
+		IF Loop_Update_ONS.Q AND PL_Error AND PM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 250.0;
+		END_IF;
+
+	(* PV is Far Below SP and Increasing Slowly *)
+		IF Loop_Update_ONS.Q AND PL_Error AND PS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 300.0;
+		END_IF;
+
+	(* PV is Far Below SP and Decreasing Slowly *)
+		IF Loop_Update_ONS.Q AND PL_Error AND NS_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 100.0;
+		END_IF;
+
+	(* PV is Far Below SP and Decreasing *)
+		IF Loop_Update_ONS.Q AND PL_Error AND NM_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 250.0;
+		END_IF;
+
+	(* PV is Far Below SP and Decreasing Quickly *)
+		IF Loop_Update_ONS.Q AND PL_Error AND NL_Error_Rate_Ind
+		    AND Enable AND NOT Manual THEN
+			Output_CV := Output_CV + 300.0;
+		END_IF;
+
+	(* Write Output_CV to the controller output variable, CV *)
+		IF Enable AND NOT Manual THEN
+			FL_CV := Output_CV;
+		END_IF;
+
+
+(***** Fuzzy Logic Controller Maximum and Minimum Limits Logic *****)
+(* Minimum Limits Logic *)
+	IF Output_CV < CV_Min THEN
+		Output_CV := CV_Min;
+	END_IF;
+
+(* Maximum Limits Logic *)
+	IF Output_CV > CV_Max THEN
+		Output_CV := CV_Max;
+	END_IF;
+
+(***** Manual Fuzzy Logic Controller Operation *****)
+(* This section of logic controls the manual operation of the fuzzy logic controller.  If the controller
+    is enabled and the manual control is set to True, then the output of the controller, CV, will be
+    equal to CV_Manual. *)
+	IF Enable AND Manual AND (CV_Manual > 0.0 AND CV_Manual <= 32767) THEN
+		FL_CV := CV_Manual;
+	END_IF;
+
+	IF Enable AND Manual AND (CV_Manual < 0.0) THEN
+		FL_CV := 0.0;
+	END_IF;
+
+	IF Enable AND Manual AND (CV_Manual >32767.0) THEN
+		FL_CV := 32767.0;
+	END_IF;
+
+(* Fuzzy Logic Controller Enable Logic *)
+	IF NOT Enable THEN
+		Output_CV := 0.0;
+		  FL_CV := 0.0;
+	END_IF;

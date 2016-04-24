@@ -87,8 +87,9 @@
 										<xs:element name="pous">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="Motor" type="pou_MOTOR" />
-													<xs:element name="StateIn" type="pou_STATEIN" />
+													<xs:element name="Motor" type="pou_MOTOR" minOccurs="0"/>
+													<xs:element name="StateIn" type="pou_STATEIN"  minOccurs="0"/>
+													<xs:element name="Fuzzy" type="pou" minOccurs="0"/>
 												</xs:sequence>
 											</xs:complexType>
 											<xs:unique name="priority_key">
@@ -123,6 +124,7 @@
 									</xs:attribute>
 								</xs:complexType>
 							</xs:element>
+						<xs:element name="ethernet" type="ethernet" minOccurs="0"/>
 
 						</xs:sequence>
 					</xs:complexType>
@@ -144,7 +146,7 @@
 	</xs:complexType>
 
 	<xs:complexType name="pou">
-		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="type" default="st">
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
@@ -226,6 +228,15 @@
 		</xs:complexContent>
 	</xs:complexType>
 	
+	<xs:complexType name="ethernet">
+		<xs:sequence>
+			<xs:element name="address" type="ip"/>
+			<xs:element name="mask" type="ip"/>
+			<xs:element name="gateway" type="ip"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	
 	<!-- ============================== Attribute Definitions ============================== -->
 	<xs:attribute name="priority">
 		<xs:simpleType>
@@ -251,5 +262,16 @@
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:attribute>
+	
+	
+	<xs:complexType name="ip">
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
 
 </xs:schema>
