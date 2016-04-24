@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE xml>
 <plcProject
-    xmlns:bdevossaPLC="http://www.w3.org/2001/XMLSchema-instance"
-    bdevossaPLC:noNamespaceSchemaLocation="..\lib\bdevossa_plcopen.xsd">
+    xmlns:PLCOpen="http://www.w3.org/2001/XMLSchema-instance"
+    PLCOpen:noNamespaceSchemaLocation="..\lib\plcopen.xsd">
 
-	<projectInfo projectName="First Test" productName="TEST ST PLC" companyName="Almighty ZRT11" version="0.1.23.456" 
+	<projectInfo projectName="Evolved Test" productName="TEST PLC Program" companyName="Almighty ZRT11" version="0.1.23.456" 
 	    creationDate="1990-01-01" creationTime="12:00:00" git="https://github.com/iwannabedeewo/thesis-work" interfaceBaseAddress="4000"> 
 			<modificationDateTime date="2016-04-10" time="17:37:00"/>
 			<authors> 
@@ -26,7 +26,7 @@
 		
 		<task name="ExampleTask" interval="20" intervalUnit="ms" priority="1" type="cyclic">
 			<pous> 
-				<Motor name="Ontarto" priority="1">
+				<Motor name="MotorExample" priority="1">
 					<INPUT address="IX0.0"/>
 					<STOP address="MX0.0"/>
 					<OUTPUT address="QX0.0"/>

@@ -1,13 +1,13 @@
 					<data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
-						<pou name="<@util.getVal pou.@name/>" pouType="program">
+						<pou name="<@getVal pou.@name/>" pouType="program">
 					    	<interface>
 					        	<localVars>
-					        		<variable name="input" address="%<@util.getVal pou.INPUT.@address/>">
+					        		<variable name="input" address="%<@getVal pou.INPUT.@address/>">
 					                	<type>
 					                    	<BOOL />
 										</type>
 									</variable>
-					                <variable name="output" address="%<@util.getVal pou.OUTPUT.@address/>">
+					                <variable name="output" address="%<@getVal pou.OUTPUT.@address/>">
 					                	<type>
 					                    	<BOOL />
 										</type>

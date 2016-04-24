@@ -1,0 +1,83 @@
+e=0;
+a=10;
+b=20;
+c=30;
+d=40;
+f=0;
+g=50;
+h=100;
+xa=0;
+xb=30;
+xc=60;
+t=input('temp');
+moist=input('رطوبة ');
+cold=0;
+cool=0;
+normal=0;
+warm=0;
+hot=0;
+dry=0;
+most=0;
+wet=0;
+// fuzzifation مرحلة تمثيل
+if t<e 
+    cold=1;
+ elseif t>=e&t<a
+    cold=(a-t)/(a-e);
+     cool=(t-e)/(a-e);
+elseif t>=a&t<b
+     cool=(b-t)/(b-a);
+     normal=(t-a)/(b-a)
+      elseif t>=b&t<c
+   normal=(c-t)/(c-b);
+   warm=(t-b)/(c-b);
+   elseif t>=c&t<d
+      warm=(d-t)/(d-c);
+      hot=(t-c)/(d-c);
+else
+    hot=1;
+end 
+if moist<f
+    dry=1;
+elseif moist>=f&moist<g
+    dry=(g-moist)/(g-f);
+    most=(moist-f)/(g-f);
+    elseif moist>=g&moist<h
+        most=(h-moist)/(h-g);
+       wet=(moist-g)/(h-g);
+else
+    wet=1;
+end 
+//max.min and rulebaseمرحلة 
+//for short
+r1=min (most,cold);
+r2=min (wet,cold);
+r3=min (wet,cool);
+r4=min (wet,normal);
+r5=min (wet,warm);
+k1=max(r1,r2);
+k2=max(k1,r3);
+k3=max(r4,r5);
+kk4=max(k2,k3);
+//for midium
+r6=min (dry,cold);
+r9=min (most,normal);
+r7=min (most,cool);
+r10=min (most,hot);
+r8=min (most,warm);
+r11=min (wet,hot);
+k8=max(r6,r9);
+k9=max(r7,r10);
+k10=max(r8,r11);
+k11=max(k8,k9);
+kk12=max(k11,k10);
+//for long
+r12=min (dry,hot);
+r13=min (dry,warm);
+r15=min (dry,cool);
+r14=min (dry,normal);
+k5=max(r12,r14);
+k6=max(r13,r15);
+kk7=max(k5,k6);
+//defuzzification
+time=(kk4*xa+kk12*xb+kk7*xc)/(kk4+kk12+kk7)

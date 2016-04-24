@@ -1,7 +1,13 @@
 <!DOCTYPE xml>
-<project name="XML2PLCOpen Converter" basedir="." default="makeXML">
+<project name="XML2PLCOpen Converter" basedir="." default="makeApp">
 
 	<property file="${basedir}/build.properties"/>
+	
+	<taskdef name="freemarker" classname="freemarker.ext.ant.FreemarkerXmlTask"> 
+		<classpath>
+			<pathelement location="${freemarker.path}/freemarker.jar" />
+		</classpath>
+	</taskdef>
 	
 	<target name="init" description="Echoes details and properties">
 		<echo/>
@@ -15,18 +21,26 @@
     <target name="clean" description="Deletes previous builds">
 	    <echo>Cleaning...</echo>
 		<delete dir="${dest}"/>
-    </target>
-
-    <target name="makeXML" depends="init,clean" description="Generates PLCOpen XML from template with Freemarker">
-		<echo>Starting conversion...</echo>
-		<taskdef name="freemarker" classname="freemarker.ext.ant.FreemarkerXmlTask"> 
-			<classpath>
-				<pathelement location="${freemarker.path}/freemarker.jar" />
-			</classpath>
-		</taskdef>
 		<mkdir dir="${dest}" />
+    </target>
+    
+    <target name="makeApp" depends="init, clean, makeMotor" description="Generates PLCOpen XML from template with Freemarker">
+		<echo>Starting application conversion...</echo>
 		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
-		    	template="${lib}/${template.filename}.ftl" extension=".plcopen.xml" />
+		    	template="${freeM_Lib}/${appTemplate}.ftl" extension=".app.xml" />
     </target>
 
+    <target name="makeMotor" description="Generates Motor Unit PLCOpen XML from template with Freemarker">
+		<echo>Starting motor unit conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="*.xml" encoding="utf-8" 
+		    	template="${freeM_Lib}/${motorTemplate}.ftl" extension=".motor.xml" />
+		<delete>
+			<fileset dir="${dest}">
+				<and>
+					<size value="0"/>
+				</and>
+			</fileset>
+		</delete>
+    </target>
+    
 </project>
