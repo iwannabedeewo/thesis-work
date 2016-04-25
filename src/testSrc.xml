@@ -30,7 +30,7 @@
  					<INPUT address="IX0.0"/>
  					<STOP address="MX0.0"/>
  					<OUTPUT address="QX0.0"/>
- 				</Motor>  -->
+ 				</Motor>
 				 
 				<StateIn name="StateInExample" priority="2">
 					<INPUT address="IX0.0"/> 
