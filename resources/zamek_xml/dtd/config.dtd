@@ -1,0 +1,215 @@
+<!--
+DTD for monitor config.xml
+-->
+<!ELEMENT root (user,support?,configuration)>
+
+<!ELEMENT user (contact+)>
+
+<!ATTLIST user
+  name CDATA #REQUIRED
+  country CDATA #IMPLIED 
+  language CDATA #IMPLIED 
+  place CDATA #REQUIRED
+  address CDATA #IMPLIED 
+  tel CDATA #IMPLIED 
+  sim CDATA #IMPLIED 
+  modemTel CDATA #IMPLIED 
+  email CDATA #IMPLIED >
+
+<!ELEMENT contact (#PCDATA)>
+<!ATTLIST contact
+  name CDATA #REQUIRED
+  tel CDATA #IMPLIED
+>
+
+<!ELEMENT support EMPTY>
+<!ATTLIST support
+  lan ( true | false ) #REQUIRED 
+  email CDATA #IMPLIED
+  tel CDATA #IMPLIED
+>
+
+<!ELEMENT configuration (pages? , specials? , global , devices , sequences , tasks)>
+
+<!ELEMENT pages (page+)>
+
+<!ELEMENT page EMPTY>
+<!ATTLIST page
+  name CDATA #REQUIRED>
+
+<!ELEMENT specials (slider-group+)>
+
+<!ELEMENT slider-group (#PCDATA)>
+<!ATTLIST slider-group
+  index NMTOKEN #REQUIRED
+  slider-counts NMTOKEN #REQUIRED
+  x-coord NMTOKEN #REQUIRED
+  y-coord NMTOKEN #REQUIRED
+  width NMTOKEN #REQUIRED
+  height NMTOKEN #REQUIRED
+  page NMTOKEN #REQUIRED
+  orientation ( horizontal | vertical ) #REQUIRED
+  format CDATA #REQUIRED>
+
+<!ELEMENT global (#PCDATA)>
+<!ATTLIST global
+  writeBase NMTOKEN #REQUIRED
+  readBase NMTOKEN #REQUIRED>
+
+<!ELEMENT devices (silo* , offsetCorrector* , targetSilo* , ponderingSilo* , redler* , elevator* ,
+      cleaner* , mplexer* , valve*)>
+<!ATTLIST devices
+  writeBase NMTOKEN #REQUIRED
+  readBase NMTOKEN #REQUIRED>
+ 
+<!ELEMENT silo (img,level)>
+<!ATTLIST silo
+  name CDATA #REQUIRED
+  plcIndex NMTOKEN #REQUIRED
+  page NMTOKEN #REQUIRED
+  default-product CDATA #IMPLIED
+  target-confirm ( true | false ) #IMPLIED
+  product-admin ( true | false ) #REQUIRED 
+  product-label-x NMTOKEN #REQUIRED
+  product-label-y NMTOKEN #REQUIRED
+  tag-x NMTOKEN #REQUIRED
+  tag-y NMTOKEN #REQUIRED>
+
+<!ELEMENT level (full*,empty*)>
+<!ATTLIST level
+  name CDATA #IMPLIED
+  checking ( none | switching | full-only ) #REQUIRED
+  full-is-off-task ( true | false ) #IMPLIED
+  img-x NMTOKEN #IMPLIED 
+  img-y NMTOKEN #IMPLIED 
+  test NMTOKEN #IMPLIED>
+
+<!ELEMENT full (#PCDATA)>
+<!ATTLIST full
+  name CDATA #REQUIRED 
+  img-x NMTOKEN #REQUIRED 
+  img-y NMTOKEN #REQUIRED 
+  maxthresold NMTOKEN #REQUIRED>
+
+<!ELEMENT empty (#PCDATA)>
+<!ATTLIST empty
+  name CDATA #REQUIRED 
+  img-x NMTOKEN #REQUIRED 
+  img-y NMTOKEN #REQUIRED 
+  minthresold NMTOKEN #REQUIRED>
+
+<!ELEMENT img (#PCDATA)>
+<!ATTLIST img
+  name CDATA #REQUIRED
+  img-x NMTOKEN #REQUIRED 
+  img-y NMTOKEN #REQUIRED>
+
+<!ELEMENT offsetCorrector (#PCDATA)>
+<!ATTLIST offsetCorrector
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED   
+  page NMTOKEN #REQUIRED  
+  receiveCorrection NMTOKEN #REQUIRED  
+  transmitCorrection NMTOKEN #REQUIRED>
+
+<!ELEMENT targetSilo (img,level)>
+<!ATTLIST targetSilo
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  page NMTOKEN #REQUIRED  
+  permeability NMTOKEN #IMPLIED>
+
+<!ELEMENT ponderingSilo (level,img,scale,remote-server)>
+<!ATTLIST ponderingSilo
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED 
+  page NMTOKEN #REQUIRED 
+  format CDATA #REQUIRED 
+  label-x NMTOKEN #REQUIRED 
+  label-y NMTOKEN #REQUIRED
+  empty-limit NMTOKEN #REQUIRED 
+  full-limit NMTOKEN #REQUIRED 
+  product-admin ( true | false ) #REQUIRED
+  product-label-x NMTOKEN #REQUIRED 
+  product-label-y NMTOKEN #REQUIRED>
+
+<!ELEMENT scale (#PCDATA)>
+<!ATTLIST scale
+  type CDATA #REQUIRED 
+  name CDATA #REQUIRED  
+  port CDATA #REQUIRED  
+  address CDATA #REQUIRED  
+  divide NMTOKEN #REQUIRED 
+  max-load NMTOKEN #REQUIRED  
+  input-format CDATA #REQUIRED 
+  test NMTOKEN #IMPLIED>
+
+<!ELEMENT remote-server (#PCDATA)>
+<!ATTLIST remote-server
+  port NMTOKEN #REQUIRED>
+
+<!ELEMENT redler (variableSpeed?, img, slider?)>
+<!ATTLIST redler
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  page NMTOKEN #REQUIRED>
+
+<!ELEMENT variableSpeed (#PCDATA)>
+<!ATTLIST variableSpeed
+  mode ( none | modbusPlc ) #REQUIRED 
+  frequenceStep NMTOKEN #REQUIRED
+  relativeToMinFrequence ( true | false ) #REQUIRED
+  minFrequence NMTOKEN #REQUIRED 
+  maxFrequence NMTOKEN #REQUIRED>
+
+<!ELEMENT slider (#PCDATA)>
+<!ATTLIST slider
+  index NMTOKEN #REQUIRED>
+
+<!ELEMENT elevator (img+)>
+<!ATTLIST elevator
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  page NMTOKEN #REQUIRED>
+
+<!ELEMENT cleaner (img)>
+<!ATTLIST cleaner
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  hidden ( true | false ) #IMPLIED
+  page NMTOKEN #REQUIRED>
+
+<!ELEMENT mplexer (img)>
+<!ATTLIST mplexer
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  page NMTOKEN #REQUIRED
+  maxDirection NMTOKEN #REQUIRED 
+  subType NMTOKEN #REQUIRED>
+
+<!ELEMENT valve (img)>
+<!ATTLIST valve
+  name CDATA #REQUIRED 
+  plcIndex NMTOKEN #REQUIRED  
+  page NMTOKEN #REQUIRED>
+
+<!ELEMENT sequences (device+)>
+
+<!ELEMENT device (next+)>
+<!ATTLIST device
+  name CDATA #REQUIRED>
+
+<!ELEMENT next (#PCDATA)>
+
+<!ELEMENT tasks (task+)>
+
+<!ELEMENT task (source+)>
+<!ATTLIST task
+  name CDATA #REQUIRED 
+  readBase NMTOKEN #REQUIRED  
+  index NMTOKEN #REQUIRED   
+  checked ( true | false ) #REQUIRED 
+  checkProduct ( true | false ) #IMPLIED
+  max-sources NMTOKEN #IMPLIED>
+
+<!ELEMENT source (#PCDATA)>
