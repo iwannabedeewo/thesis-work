@@ -23,11 +23,11 @@
     <xsl:apply-templates select="silo"/>
     </table>
 
-    <xsl:text>
-     <p>summa:
-     <xsl:value-of select="count(silo)"/>
-     </p>
-    </xsl:text>
+<!--     <xsl:text> -->
+<!--      <p>summa: -->
+<!--      <xsl:value-of select="count(silo)"/> -->
+<!--      </p> -->
+<!--     </xsl:text> -->
     
   </xsl:template>
 
