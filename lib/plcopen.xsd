@@ -146,6 +146,23 @@
 	</xs:complexType>
 
 	<xs:complexType name="pou">
+		<xs:sequence>
+			<xs:element name="VISUALISATION" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IMG" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:string" use="required"/>
+								<xs:attribute name="x" type="xs:string" use="required"/>
+								<xs:attribute name="y" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="plcIndex" type="xs:string" use="required"/>
+					<xs:attribute name="page" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="type" default="st">
 			<xs:simpleType>

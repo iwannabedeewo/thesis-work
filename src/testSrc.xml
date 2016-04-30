@@ -27,6 +27,9 @@
 		<task name="ExampleTask" interval="20" intervalUnit="ms" priority="1" type="cyclic">
 			<pous> 
  				<Motor name="MotorExample" priority="1">
+ 					<VISUALISATION plcIndex="1" page='0'>
+ 						<IMG id="visu_1" x="0" y="0"/>
+ 					</VISUALISATION>
  					<INPUT address="IX0.0"/>
  					<STOP address="MX0.0"/>
  					<OUTPUT address="QX0.0"/>
