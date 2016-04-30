@@ -36,8 +36,8 @@
  				</Motor>
 				 
 				<StateIn name="StateInExample" priority="2">
-					<INPUT address="IX0.0"/> 
-					<OUTPUT address="QX0.0"/>
+					<INPUT address="IX1.0"/> 
+					<OUTPUT address="QX3.0"/>
 				</StateIn>
 				
 				<Fuzzy name="fuzzy_exp" priority="88"/>

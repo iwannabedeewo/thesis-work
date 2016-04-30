@@ -597,12 +597,12 @@ ReadAxisState(Axis:=MotorExample_Motor,Enable:=TRUE,ErrorStop=&gt;Xerrorstop);
 						<pou name="StateInExample" pouType="program">
 					    	<interface>
 					        	<localVars>
-					        		<variable name="input" address="%IX0.0">
+					        		<variable name="input" address="%IX1.0">
 					                	<type>
 					                    	<BOOL />
 										</type>
 									</variable>
-					                <variable name="output" address="%QX0.0">
+					                <variable name="output" address="%QX3.0">
 					                	<type>
 					                    	<BOOL />
 										</type>
