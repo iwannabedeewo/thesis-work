@@ -35,7 +35,7 @@
  					<OUTPUT address="QX0.0"/>
  				</Motor>
 				 
-				<StateIn name="StateInExample" priority="2">
+				<StateIn name="St_xample" priority="2">
 					<INPUT address="IX1.0"/> 
 					<OUTPUT address="QX3.0"/>
 				</StateIn>

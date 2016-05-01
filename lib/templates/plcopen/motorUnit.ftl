@@ -1,13 +1,16 @@
+<#include "./util.ftl">
+<#list task.pous.* as pou> 
+	<#if pou?node_name?matches("motor", 'i')>
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0200">
  	<fileHeader 
-		companyName="Almighty ZRT11" 
-		productName="TEST PLC Program" 
-		productVersion="0.1.23.456"
-		creationDateTime="1990-01-01T12:00:00" />
+		companyName="<@getVal info.@companyName/>" 
+		productName="<@getVal info.@productName/>" 
+		productVersion="<@getVal info.@version/>"
+		creationDateTime="${cdt}" />
   	<contentHeader 
-  		name="Evolved Test"
-  		modificationDateTime="2016-04-10T17:37:00" >
+  		name="<@getVal info.@projectName/>"
+  		modificationDateTime="${mdt}" >
 		<coordinateInfo>
 	    	<fbd>
 	        	<scaling x="1" y="1" />
@@ -26,7 +29,7 @@
   </types>
   <instances>
     <configurations>
-      <configuration name="MotorExample_Motor">
+      <configuration name="<@getVal pou.@name/>_Motor">
         <addData>
           <data name="Device" handleUnknown="discard">
             <Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="">
@@ -105,7 +108,7 @@
                         <Attributes />
                         <Value>0</Value>
                         <Name>fRampJerk</Name>
-                        <Description>jerk used for bringing acceleration to 0 when sinÂ˛ ramp is interrupted</Description>
+                        <Description>jerk used for bringing acceleration to 0 when sin² ramp is interrupted</Description>
                       </Parameter>
                       <Parameter ParameterId="1200" type="std:LREAL">
                         <Attributes />
@@ -162,3 +165,5 @@
     </data>
   </addData>
 </project>
+	</#if>
+</#list>

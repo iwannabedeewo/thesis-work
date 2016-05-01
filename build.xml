@@ -1,5 +1,5 @@
 <!DOCTYPE xml>
-<project name="XML2PLCOpen Converter" basedir="." default="makeApp">
+<project name="XML2PLCOpen Converter" basedir="." default="makeFesto">
 
 	<property file="${basedir}/build.properties"/>
 	
@@ -23,23 +23,11 @@
 		<delete dir="${dest}"/>
 		<mkdir dir="${dest}" />
     </target>
-    
-    <target name="makeApp" depends="init, clean, makeMotor, makeFesto" description="Generates PLCOpen XML from template with Freemarker">
-		<echo>Starting application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
-		    	template="${freeM_Lib}/${appTemplate}.ftl" extension=".app.xml" />
-    </target>
 	
-	<target name="makeFesto" description="Generates Festo Stepladder">
-			<echo>Starting Festo application conversion...</echo>
-			<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
-			    	template="${freeM_Lib}/festo_stateIn.ftl" extension=".app.awl" />
-	    </target>
-
-    <target name="makeMotor" description="Generates Motor Unit PLCOpen XML from template with Freemarker">
+	 <target name="makeMotor" description="Generates Motor Unit PLCOpen XML from template with Freemarker">
 		<echo>Starting motor unit conversion...</echo>
 		<freemarker basedir="${src}" destdir="${dest}" includes="*.xml" encoding="utf-8" 
-		    	template="${freeM_Lib}/${motorTemplate}.ftl" extension=".motor.xml" />
+		    	template="${plcOpen_lib}/${motorTemplate}.ftl" extension=".motor.xml" />
 		<delete>
 			<fileset dir="${dest}">
 				<and>
@@ -47,6 +35,49 @@
 				</and>
 			</fileset>
 		</delete>
+	 </target>
+	
+	<target name="makePLCOpen" depends="init, clean, makeMotor" description="Generates PLCOpen XML from template with Freemarker">
+		<echo>Starting application conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		    	template="${plcOpen_lib}/${appTemplate}.ftl" extension=".app.xml" />
     </target>
+	
+	
+	<target name="makeFesto_AL">
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+			template="${festo_lib}/AllocList.ftl" extension=".temp" />
+		<move toFile="${dest}/AllocList.INI">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto_AWL">
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+			template="${festo_lib}/festo_module.ftl" extension=".temp" />
+		<move toFile="${dest}/CZ0P00V1.awl">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto_PRO">
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+			template="${festo_lib}/Project.ftl" extension=".temp" />
+		<move toFile="${dest}/Project.FW4">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto" depends="init, clean, makeFesto_AL, makeFesto_AWL, makeFesto_PRO" description="Generates Festo Stepladder">
+		<echo>Starting Festo application conversion...</echo>
+	</target>
+
+   
     
 </project>

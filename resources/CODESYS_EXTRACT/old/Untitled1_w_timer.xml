@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP8 Patch 2" creationDateTime="2016-04-18T22:24:28.5417761" />
+  <contentHeader name="Untitled1.project" modificationDateTime="2016-04-18T22:24:16.4690856">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous />
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/application" handleUnknown="implementation">
+      <resource name="Application">
+        <task name="ExampleTask" interval="PT0.02S" priority="1">
+          <pouInstance name="Motor_Proba" typeName="">
+            <documentation>
+              <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+            </documentation>
+          </pouInstance>
+          <addData>
+            <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+              <TaskSettings KindOfTask="Cyclic" Interval="t#20ms" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                <Watchdog Enabled="false" TimeUnit="ms" />
+              </TaskSettings>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+              <ObjectId>64dd64d3-9888-443d-af9e-87c43a0a0454</ObjectId>
+            </data>
+          </addData>
+        </task>
+        <addData>
+          <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+            <pou name="StateInExample" pouType="program">
+              <interface>
+                <localVars>
+                  <variable name="input" address="%IX0.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="output" address="%QX0.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                </localVars>
+              </interface>
+              <body>
+                <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+									output := input;
+									</xhtml>
+                </ST>
+              </body>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>8ca630dd-4527-41c8-8588-9ce7068b6df4</ObjectId>
+                </data>
+              </addData>
+            </pou>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+            <pou name="Ontarto" pouType="program">
+              <interface>
+                <localVars>
+                  <variable name="input1" address="%IX0.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="stop" address="%MX0.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="output" address="%QX0.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                </localVars>
+              </interface>
+              <body>
+                <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+									output := input1 OR output;
+									IF
+									 stop THEN output := FALSE;
+									END_IF;
+									</xhtml>
+                </ST>
+              </body>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>eaf198f3-d641-430d-af7e-da6c2b413a4c</ObjectId>
+                </data>
+              </addData>
+            </pou>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+            <pou name="Motor_Proba" pouType="program">
+              <interface>
+                <inputVars>
+                  <variable name="START" address="%MX0.1">
+                    <type>
+                      <BOOL />
+                    </type>
+                    <initialValue>
+                      <simpleValue value="FALSE" />
+                    </initialValue>
+                    <documentation>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml"> </xhtml>
+                    </documentation>
+                  </variable>
+                  <variable name="STOP" address="%MX0.2">
+                    <type>
+                      <BOOL />
+                    </type>
+                    <initialValue>
+                      <simpleValue value="FALSE" />
+                    </initialValue>
+                    <documentation>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml"> </xhtml>
+                    </documentation>
+                  </variable>
+                </inputVars>
+                <localVars>
+                  <variable name="MOTOR" address="%MX1.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                    <initialValue>
+                      <simpleValue value="FALSE" />
+                    </initialValue>
+                    <documentation>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml"> </xhtml>
+                    </documentation>
+                  </variable>
+                  <variable name="ERR_TIM">
+                    <type>
+                      <derived name="TON" />
+                    </type>
+                  </variable>
+                  <variable name="EL_TIME">
+                    <type>
+                      <TIME />
+                    </type>
+                  </variable>
+                  <variable name="ERROR" address="%MX2.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                    <initialValue>
+                      <simpleValue value="FALSE" />
+                    </initialValue>
+                    <documentation>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml"> </xhtml>
+                    </documentation>
+                  </variable>
+                </localVars>
+                <outputVars>
+                  <variable name="ST_RED" address="%QX3.0">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="ST_GREEN" address="%QX3.1">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                </outputVars>
+              </interface>
+              <body>
+                <LD>
+                  <leftPowerRail localId="0">
+                    <position x="0" y="0" />
+                    <connectionPointOut formalParameter="none" />
+                  </leftPowerRail>
+                  <comment localId="1" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="2">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="3" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>START</variable>
+                  </contact>
+                  <contact localId="4" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>MOTOR</variable>
+                  </contact>
+                  <contact localId="5" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="3" />
+                      <connection refLocalId="4" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>STOP</variable>
+                  </contact>
+                  <contact localId="6" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="5" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ERROR</variable>
+                  </contact>
+                  <coil localId="7" negated="false" storage="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="6" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>MOTOR</variable>
+                  </coil>
+                  <comment localId="8" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="9">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="11" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>START</variable>
+                  </contact>
+                  <inVariable localId="12">
+                    <position x="0" y="0" />
+                    <connectionPointOut />
+                    <expression>T#5000ms</expression>
+                  </inVariable>
+                  <block localId="10" typeName="TON" instanceName="ERR_TIM">
+                    <position x="0" y="0" />
+                    <inputVariables>
+                      <variable formalParameter="IN">
+                        <connectionPointIn>
+                          <connection refLocalId="11" />
+                        </connectionPointIn>
+                      </variable>
+                      <variable formalParameter="PT">
+                        <connectionPointIn>
+                          <connection refLocalId="12" />
+                        </connectionPointIn>
+                      </variable>
+                    </inputVariables>
+                    <inOutVariables />
+                    <outputVariables>
+                      <variable formalParameter="Q">
+                        <connectionPointOut />
+                      </variable>
+                      <variable formalParameter="ET">
+                        <connectionPointOut>
+                          <expression>EL_TIME</expression>
+                        </connectionPointOut>
+                      </variable>
+                    </outputVariables>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                        <CallType xmlns="">functionblock</CallType>
+                      </data>
+                    </addData>
+                  </block>
+                  <coil localId="13" negated="false" storage="reset">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="10" formalParameter="Q" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ERROR</variable>
+                  </coil>
+                  <comment localId="14" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="15">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="16" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>MOTOR</variable>
+                  </contact>
+                  <contact localId="17" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="16" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ERROR</variable>
+                  </contact>
+                  <coil localId="18" negated="false" storage="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="17" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ST_GREEN</variable>
+                  </coil>
+                  <comment localId="19" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="20">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="21" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ERROR</variable>
+                  </contact>
+                  <coil localId="22" negated="false" storage="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="21" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>ST_RED</variable>
+                  </coil>
+                  <rightPowerRail localId="2147483646">
+                    <position x="0" y="0" />
+                    <connectionPointIn />
+                  </rightPowerRail>
+                </LD>
+              </body>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>55e08119-af96-4f56-a38f-815cad8d9504</ObjectId>
+                </data>
+              </addData>
+            </pou>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/libraries" handleUnknown="implementation">
+            <Libraries>
+              <Library Name="#IoStandard" Namespace="IoStandard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="true" DefaultResolution="IoStandard, 3.5.8.0 (System)" />
+              <Library Name="#3SLicense" Namespace="_3S_LICENSE" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="3SLicense, 0.0.0.0 (3S - Smart Software Solutions GmbH)" ResolverGuid="97c3b452-d9fa-4ac2-9d0c-3d420aa6d95b" />
+              <Library Name="#BreakpointLogging" Namespace="BPLog" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="Breakpoint Logging Functions, 3.5.5.0 (3S - Smart Software Solutions GmbH)" />
+              <Library Name="#Standard" Namespace="Standard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="false" LinkAllContent="false" DefaultResolution="Standard, * (System)" />
+              <Library Name="#Util" Namespace="Util" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="false" LinkAllContent="false" DefaultResolution="Util, * (System)">
+                <Parameters>
+                  <Parameter Name="IBLOCKSIZE" Value="22800" />
+                </Parameters>
+              </Library>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>01599e0c-6525-47e9-b115-6befd89d615c</ObjectId>
+                </data>
+              </addData>
+            </Libraries>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>f5404d3f-f5d6-4f8b-81a6-30b2d1c2a314</ObjectId>
+          </data>
+        </addData>
+      </resource>
+    </data>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Application" ObjectId="f5404d3f-f5d6-4f8b-81a6-30b2d1c2a314">
+          <Object Name="ExampleTask" ObjectId="64dd64d3-9888-443d-af9e-87c43a0a0454" />
+          <Object Name="Library Manager" ObjectId="01599e0c-6525-47e9-b115-6befd89d615c" />
+          <Object Name="StateInExample" ObjectId="8ca630dd-4527-41c8-8588-9ce7068b6df4" />
+          <Object Name="Ontarto" ObjectId="eaf198f3-d641-430d-af7e-da6c2b413a4c" />
+          <Object Name="Motor_Proba" ObjectId="55e08119-af96-4f56-a38f-815cad8d9504" />
+        </Object>
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>
