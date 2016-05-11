@@ -15,7 +15,7 @@
 				<contact name="c2" role="" telNumber="06301239876" email="cont22@test.com"/> 
 			</customer> 
 	</projectInfo>
-		
+	
 	<application> 
 		<emergency marker="m0">
 			<INPUT bit="x0"/>
@@ -36,8 +36,8 @@
  				</Motor>
 				 
 				<StateIn name="St_xample" priority="2">
-					<INPUT address="IX1.0"/> 
-					<OUTPUT address="QX3.0"/>
+					<INPUT address="IX9.0"/> 
+					<OUTPUT address="QX9.9"/>
 				</StateIn>
 				
 				<Fuzzy name="fuzzy_exp" priority="88"/>

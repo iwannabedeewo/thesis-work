@@ -1,5 +1,5 @@
 <!DOCTYPE xml>
-<project name="XML2PLCOpen Converter" basedir="." default="makeFesto">
+<project name="XML2PLCOpen Converter" basedir=".">
 
 	<property file="${basedir}/build.properties"/>
 	
@@ -24,7 +24,7 @@
 		<mkdir dir="${dest}" />
     </target>
 	
-	 <target name="makeMotor" description="Generates Motor Unit PLCOpen XML from template with Freemarker">
+	 <target name="makeMotor">
 		<echo>Starting motor unit conversion...</echo>
 		<freemarker basedir="${src}" destdir="${dest}" includes="*.xml" encoding="utf-8" 
 		    	template="${plcOpen_lib}/${motorTemplate}.ftl" extension=".motor.xml" />
@@ -78,6 +78,11 @@
 		<echo>Starting Festo application conversion...</echo>
 	</target>
 
+	<target name="makeSAIA" depends="init, clean" description="Generates Festo Stepladder">
+		<echo>Starting SAIA application conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+					template="${saia_lib}/saia_src.ftl" extension=".src" />
+	</target>
    
     
 </project>

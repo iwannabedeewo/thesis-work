@@ -2,7 +2,7 @@
 <#assign aDateTime = .now>
 <#assign eth = app.ethernet>
 [PROJECT]
-CREATED=FST 4.21.153 : ${aDateTime?string["dd MMMM yyyy hh:mm:ss"]} by <@getVal info.@companyName/>
+CREATED=BenceDevossa Template Export : ${aDateTime?string["dd MMMM yyyy hh:mm:ss"]} by <@getVal info.@companyName/>
 TARGET=FECX
 COMMENT=No comment
 USE_MPRAM_IO=0
