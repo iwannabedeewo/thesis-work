@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wiring
+    xmlns:wiring="http://www.w3.org/2001/XMLSchema-instance"
+    wiring:noNamespaceSchemaLocation="..\lib\wiring.xsd">
+    
+	<Condition if="IX0.0" start="MX3.3"/> <!-- Starts stateIn example -->
+	<Condition if="IX0.1" start="MX0.0"/> <!-- Start PLCOpen Motor -->
+	
+
+</wiring>

@@ -1,3 +1,4 @@
+<#assign prior><@getVal pou.@priority/></#assign>
 ;**************************************************************************
 ;* AUTEUR:       Dupond Fred                                              *
 ;* DATE:         19.11.99                                                 *
@@ -5,8 +6,8 @@
 ;**************************************************************************
 ;
 ;
-            COB    0                   ;Begin of cyclic program
-                   0
+            COB    ${prior}                   ;Begin of cyclic program
+                   ${prior}
 ;
             STH    I 0                 ;logic equation O32 = IO*I1+I2+I3*I4*I5
             ANH    I 1

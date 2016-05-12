@@ -97,6 +97,10 @@
 												<xs:selector xpath="*"/>
 												<xs:field xpath="@priority"/>
 											</xs:unique>
+											<xs:unique name="output_key">
+												<xs:selector xpath="*/OUTPUT"/>
+												<xs:field xpath="@address"/>
+											</xs:unique>
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="name" type="xs:string" use="required" />
@@ -175,13 +179,23 @@
 		<xs:attribute ref="priority" use="required"/>
 	</xs:complexType>
 	
-	<xs:complexType name="pou_MOTOR">
+	<xs:complexType name="pou_w_output">
 		<xs:complexContent>
 			<xs:extension base="pou">
 				<xs:sequence>
+						<xs:element name="OUTPUT" type="variable" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="pou_MOTOR">
+		<xs:complexContent>
+			<xs:extension base="pou_w_output">
+				<xs:sequence>
 					<xs:element name="INPUT" type="variable" />
 					<xs:element name="STOP" type="variable" />
-					<xs:element name="OUTPUT" type="variable" />
+			
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -189,10 +203,9 @@
 	
 	<xs:complexType name="pou_STATEIN">
 		<xs:complexContent>
-			<xs:extension base="pou">
+			<xs:extension base="pou_w_output">
 				<xs:sequence>
 					<xs:element name="INPUT" type="variable" />
-					<xs:element name="OUTPUT" type="variable" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

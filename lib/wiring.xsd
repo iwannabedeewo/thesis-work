@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="wiring">
+		<xs:complexType>
+			<xs:sequence> 
+				<xs:element name="Condition" type="cond" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	
+	</xs:element>
+
+	<xs:complexType name="cond">
+		<xs:attribute name="if" type="address"/>
+		<xs:attribute name="start" type="address"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="address">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[IQM]X[0-9].[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>		
+
+</xs:schema>

@@ -1,3 +1,9 @@
+<#macro getSAIAAddr arg>
+		<#assign val><@getVal arg/></#assign>
+		<#compress>
+				${val?replace("X", " ")?replace(".", "")?replace("M", "F")?replace("Q" , "O")}
+		</#compress>
+</#macro>
 <#macro getHighestPriority list>
 	<#assign prio = "1000">
 	<#list list.* as pou>

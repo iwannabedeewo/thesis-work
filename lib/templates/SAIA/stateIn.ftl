@@ -1,8 +1,9 @@
-            COB    0
-                   0
+<#assign prior><@getVal pou.@priority/></#assign>
+            COB    ${prior}
+                   ${prior}
                    
-            STH     <@getSAIAAddr pou.INPUT/>         
-            SET     <@getSAIAAddr pou.OUTPUT/>
+            STH     <@getSAIAAddr pou.INPUT.@address/>         
+            SET     <@getSAIAAddr pou.OUTPUT.@address/>
 
             ECOB
 

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE xml>
+<?xml version="1.0" encoding="UTF-8"?>
 <plcProject
     xmlns:bdevossa_PLC="http://www.w3.org/2001/XMLSchema-instance"
-    bdevossa_PLC:noNamespaceSchemaLocation="..\lib\plcopen.xsd">
+    bdevossa_PLC:noNamespaceSchemaLocation="..\lib\config.xsd">
 
 	<projectInfo projectName="Evolved Test" productName="TEST PLC Program" companyName="Almighty ZRT11" version="0.1.23.456" 
 	    creationDate="1990-01-01" creationTime="12:00:00" git="https://github.com/iwannabedeewo/thesis-work" interfaceBaseAddress="4000"> 
@@ -30,19 +30,19 @@
  					<VISUALISATION plcIndex="1" page='0'>
  						<IMG id="visu_1" x="0" y="0"/>
  					</VISUALISATION>
- 					<INPUT address="IX0.0"/>
- 					<STOP address="MX0.0"/>
  					<OUTPUT address="QX0.0"/>
+ 					<INPUT address="MX0.0"/>
+ 					<STOP address="MX0.1"/>
  				</Motor>
 				 
 				<StateIn name="St_xample" priority="2">
-					<INPUT address="MX9.0"/> 
-					<OUTPUT address="MX9.9"/>
+ 					<OUTPUT address="QX0.1"/>
+					<INPUT address="MX3.3"/> 
 				</StateIn>
-				
-				<Blinker name="SAIA_Blinker" priority="1"/>
-				
+				 
 				<Fuzzy name="fuzzy_exp" priority="88"/>
+				
+				<Blinker name="SAIA_Blinker" priority="3"/>
 			</pous>
 		</task>
 		
@@ -51,8 +51,6 @@
 		    <mask value="255.255.255.0"/> 
 		    <gateway value="0.0.0.0"/>
 		</ethernet>
-		
-<!-- 		guid-s gond talán: signatureObjectGuid -->
 		
 	</application>
 </plcProject>
