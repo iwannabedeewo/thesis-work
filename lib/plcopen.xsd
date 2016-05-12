@@ -90,6 +90,7 @@
 													<xs:element name="Motor" type="pou_MOTOR" minOccurs="0"/>
 													<xs:element name="StateIn" type="pou_STATEIN"  minOccurs="0"/>
 													<xs:element name="Fuzzy" type="pou" minOccurs="0"/>
+													<xs:element name="Blinker" type="pou" minOccurs="0"/>
 												</xs:sequence>
 											</xs:complexType>
 											<xs:unique name="priority_key">

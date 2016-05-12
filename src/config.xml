@@ -36,9 +36,11 @@
  				</Motor>
 				 
 				<StateIn name="St_xample" priority="2">
-					<INPUT address="IX9.0"/> 
-					<OUTPUT address="QX9.9"/>
+					<INPUT address="MX9.0"/> 
+					<OUTPUT address="MX9.9"/>
 				</StateIn>
+				
+				<Blinker name="SAIA_Blinker" priority="1"/>
 				
 				<Fuzzy name="fuzzy_exp" priority="88"/>
 			</pous>

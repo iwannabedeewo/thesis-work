@@ -26,7 +26,7 @@
 	
 	 <target name="makeMotor">
 		<echo>Starting motor unit conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 		    	template="${plcOpen_lib}/${motorTemplate}.ftl" extension=".motor.xml" />
 		<delete>
 			<fileset dir="${dest}">
@@ -39,13 +39,13 @@
 	
 	<target name="makePLCOpen" depends="init, clean, makeMotor" description="Generates PLCOpen XML from template with Freemarker">
 		<echo>Starting application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 		    	template="${plcOpen_lib}/${appTemplate}.ftl" extension=".app.xml" />
     </target>
 	
 	
 	<target name="makeFesto_AL">
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 			template="${festo_lib}/AllocList.ftl" extension=".temp" />
 		<move toFile="${dest}/AllocList.INI">
 			<fileset dir="${dest}">
@@ -55,7 +55,7 @@
 	</target>
 	
 	<target name="makeFesto_AWL">
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 			template="${festo_lib}/festo_module.ftl" extension=".temp" />
 		<move toFile="${dest}/CZ0P00V1.awl">
 			<fileset dir="${dest}">
@@ -65,7 +65,7 @@
 	</target>
 	
 	<target name="makeFesto_PRO">
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 			template="${festo_lib}/Project.ftl" extension=".temp" />
 		<move toFile="${dest}/Project.FW4">
 			<fileset dir="${dest}">
@@ -80,7 +80,7 @@
 
 	<target name="makeSAIA" depends="init, clean" description="Generates Festo Stepladder">
 		<echo>Starting SAIA application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="**/*.xml" encoding="utf-8" 
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
 					template="${saia_lib}/saia_src.ftl" extension=".src" />
 	</target>
    

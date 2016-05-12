@@ -40,3 +40,9 @@
 <#else>
 	<#assign mdt = cdt>
 </#if>
+<#macro getSAIAAddr arg>
+		<#assign val><@getVal arg.@address/></#assign>
+		<#compress>
+				${val?replace("X", " ")?replace("M", "F")?replace("Q" , "O")}
+		</#compress>
+</#macro>
