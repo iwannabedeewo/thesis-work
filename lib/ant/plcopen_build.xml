@@ -1,0 +1,24 @@
+<project name="BUILD_PLCOPEN" basedir=".">
+    
+	<target name="makeMotor">
+		<echo>Starting motor unit conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+		    	template="${plcOpen_lib}/${motorTemplate}.ftl" extension=".motor.xml" />
+		<delete>
+			<fileset dir="${dest}">
+				<and>
+					<size value="0"/>
+				</and>
+			</fileset>
+		</delete>
+	 </target>
+	
+	<target name="makePLCOpen" depends="init, clean, makeMotor" description="Generates PLCOpen XML from template with Freemarker">
+		<echo>Starting application conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+		    	template="${plcOpen_lib}/${appTemplate}.ftl" extension=".plcopen.xml" />
+		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
+		    	template="${plcOpen_lib}/wiring.ftl" extension=".plcopen.xml" />
+    </target>
+	
+</project>

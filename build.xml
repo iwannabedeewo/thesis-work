@@ -1,7 +1,10 @@
 <!DOCTYPE xml>
-<project name="XML2PLCOpen Converter" basedir=".">
+<project name="XML2PLC Converter" basedir=".">
 
 	<property file="${basedir}/build.properties"/>
+	<import file="${antLib}/plcopen_build.xml"/>
+	<import file="${antLib}/festo_build.xml"/>
+	<import file="${antLib}/saia_build.xml"/>
 	
 	<taskdef name="freemarker" classname="freemarker.ext.ant.FreemarkerXmlTask"> 
 		<classpath>
@@ -23,77 +26,5 @@
 		<delete dir="${dest}"/>
 		<mkdir dir="${dest}" />
     </target>
-	
-	 <target name="makeMotor">
-		<echo>Starting motor unit conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-		    	template="${plcOpen_lib}/${motorTemplate}.ftl" extension=".motor.xml" />
-		<delete>
-			<fileset dir="${dest}">
-				<and>
-					<size value="0"/>
-				</and>
-			</fileset>
-		</delete>
-	 </target>
-	
-	<target name="makePLCOpen" depends="init, clean, makeMotor" description="Generates PLCOpen XML from template with Freemarker">
-		<echo>Starting application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-		    	template="${plcOpen_lib}/${appTemplate}.ftl" extension=".plcopen.xml" />
-		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
-		    	template="${plcOpen_lib}/wiring.ftl" extension=".plcopen.xml" />
-    </target>
-	
-	
-	<target name="makeFesto_AL">
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-			template="${festo_lib}/AllocList.ftl" extension=".temp" />
-		<move toFile="${dest}/AllocList.INI">
-			<fileset dir="${dest}">
-				<include name="*.temp"/>
-			</fileset>
-		</move>
-	</target>
-	
-	<target name="makeFesto_AWL">
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-			template="${festo_lib}/festo_module.ftl" extension=".temp" />
-		<move toFile="${dest}/CZ0P01V1.awl">
-			<fileset dir="${dest}">
-				<include name="*.temp"/>
-			</fileset>
-		</move>
-	</target>
-	
-	<target name="makeFesto_PRO">
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-			template="${festo_lib}/Project.ftl" extension=".temp" />
-		<move toFile="${dest}/Project.FW4">
-			<fileset dir="${dest}">
-				<include name="*.temp"/>
-			</fileset>
-		</move>
-	</target>
-	
-	<target name="makeFesto" depends="init, clean, makeFesto_AL, makeFesto_AWL, makeFesto_PRO" description="Generates Festo Stepladder">
-		<echo>Starting Festo application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
-					template="${festo_lib}/wiring.ftl" extension=".temp" />
-		<move toFile="${dest}/CZ0P00V1.awl">
-			<fileset dir="${dest}">
-				<include name="*.temp"/>
-			</fileset>
-		</move>
-	</target>
-
-	<target name="makeSAIA" depends="init, clean" description="Generates Festo Stepladder">
-		<echo>Starting SAIA application conversion...</echo>
-		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
-					template="${saia_lib}/saia_src.ftl" extension=".src" />
-		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
-							template="${saia_lib}/wiring.ftl" extension=".src" />
-	</target>
-   
     
 </project>

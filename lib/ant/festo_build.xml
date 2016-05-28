@@ -1,0 +1,44 @@
+<project name="BUILD_FESTO" basedir=".">
+    
+	<target name="makeFesto_AL">
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+			template="${festo_lib}/AllocList.ftl" extension=".temp" />
+		<move toFile="${dest}/AllocList.INI">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto_AWL">
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+			template="${festo_lib}/festo_module.ftl" extension=".temp" />
+		<move toFile="${dest}/CZ0P01V1.awl">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto_PRO">
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+			template="${festo_lib}/Project.ftl" extension=".temp" />
+		<move toFile="${dest}/Project.FW4">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="makeFesto" depends="init, clean, makeFesto_AL, makeFesto_AWL, makeFesto_PRO" description="Generates Festo Stepladder">
+		<echo>Starting Festo application conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
+					template="${festo_lib}/wiring.ftl" extension=".temp" />
+		<move toFile="${dest}/CZ0P00V1.awl">
+			<fileset dir="${dest}">
+				<include name="*.temp"/>
+			</fileset>
+		</move>
+	</target>
+	
+</project>

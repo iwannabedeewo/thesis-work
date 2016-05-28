@@ -1,0 +1,11 @@
+<project name="BUILD_SAIA" basedir=".">
+    
+	<target name="makeSAIA" depends="init, clean" description="Generates Festo Stepladder">
+		<echo>Starting SAIA application conversion...</echo>
+		<freemarker basedir="${src}" destdir="${dest}" includes="config.xml" encoding="utf-8" 
+					template="${saia_lib}/saia_src.ftl" extension=".src" />
+		<freemarker basedir="${src}" destdir="${dest}" includes="wiring.xml" encoding="utf-8" 
+							template="${saia_lib}/wiring.ftl" extension=".src" />
+	</target>
+	
+</project>
