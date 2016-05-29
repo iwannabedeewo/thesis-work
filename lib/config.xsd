@@ -281,7 +281,7 @@
 	<xs:attribute name="telNumber">
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
-				<xs:pattern value="(06|\+36)[0-9]{9}"/>
+				<xs:pattern value="(06|\+36)[0-9]{8,9}"/>
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:attribute>

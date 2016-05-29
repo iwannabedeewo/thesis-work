@@ -11,8 +11,8 @@
 				<author name="a2" telNumber="+36123456789" email="a2@a1.com"/> 
 			</authors>
 			<customer name="Pistám" country="Hungary" zip="5900" city="Orosháza" address="asd" telNumber="+36123456789" email="test@pelda.com">
-				<contact name="c1" role=""  telNumber="+36123456789" email="cont1@pelda.com"/>
-				<contact name="c2" role="" telNumber="06301239876" email="cont22@test.com"/> 
+				<contact name="c1" role="Másik Nagyfőnök"  telNumber="+36123456789" email="cont1@pelda.com"/>
+				<contact name="c2" role="Kisfőnök" telNumber="06301239876" email="cont22@test.com"/> 
 			</customer> 
 	</projectInfo>
 	
