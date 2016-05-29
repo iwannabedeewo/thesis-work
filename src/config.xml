@@ -3,7 +3,7 @@
     xmlns:bdevossa_PLC="http://www.w3.org/2001/XMLSchema-instance"
     bdevossa_PLC:noNamespaceSchemaLocation="..\lib\config.xsd">
 
-	<projectInfo projectName="Evolved Test" productName="TEST PLC Program" companyName="FAszom KFT" version="0.1.23.456" 
+	<projectInfo projectName="Evolved Test" productName="TEST PLC Program" companyName="Allmighty ZRT" version="0.1.23.456" 
 	    creationDate="1990-01-01" creationTime="12:00:00" git="https://github.com/iwannabedeewo/thesis-work" interfaceBaseAddress="4000"> 
 			<modificationDateTime date="2016-04-10" time="17:37:00"/>
 			<authors> 
