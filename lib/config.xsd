@@ -93,6 +93,7 @@
 													<xs:element name="Blinker" type="pou" minOccurs="0"/>
 												</xs:sequence>
 											</xs:complexType>
+											
 											<xs:unique name="priority_key">
 												<xs:selector xpath="*"/>
 												<xs:field xpath="@priority"/>
@@ -101,6 +102,7 @@
 												<xs:selector xpath="*/OUTPUT"/>
 												<xs:field xpath="@address"/>
 											</xs:unique>
+											
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="name" type="xs:string" use="required" />
