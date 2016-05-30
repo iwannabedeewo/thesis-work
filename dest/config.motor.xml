@@ -105,7 +105,7 @@
                         <Attributes />
                         <Value>0</Value>
                         <Name>fRampJerk</Name>
-                        <Description>jerk used for bringing acceleration to 0 when sin² ramp is interrupted</Description>
+                        <Description>jerk used for bringing acceleration to 0 when sinÂ˛ ramp is interrupted</Description>
                       </Parameter>
                       <Parameter ParameterId="1200" type="std:LREAL">
                         <Attributes />
