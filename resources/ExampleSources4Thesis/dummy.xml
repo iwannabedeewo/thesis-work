@@ -1,34 +1,18 @@
-
-
-	<?xml version="1.0"?>    
-	<PTE-MIK 
-		xmlns:bdevossa_peldaXML="http://www.w3.org/2001/XMLSchema-instance"
-		bdevossa_peldaXML:noNamespaceSchemaLocation="pelda_xsd.xsd">
-		
-		<hallgatok>
-			<hallgato szak="Villamosmérnök">
-				<nev>Devossa Bence</nev>
-				<kor>22</kor>
-			</hallgato>
-			<hallgato szak="gépészmérnök">
-				<nev>Nelson Baker</nev>
-				<kor>25</kor>
-			</hallgato>
-		</hallgatok>
-		
-		
-		
-		<diak:szemely>
+<?xml version="1.0" encoding="UTF-8"?>
+<PTE-MIK
+	xmlns:bdevossa_peldaXML="http://www.w3.org/2001/XMLSchema-instance"
+	bdevossa_peldaXML:noNamespaceSchemaLocation="pelda_xsd.xsd">
+	
+	<hallgatok>
+		<hallgato szak="Villamosmérnök">
 			<nev>Devossa Bence</nev>
 			<kor>22</kor>
-		</diak:szemely>
-		
-		<tanar:szemely>
-			<nev>Ian McKellen</nev>
-			<kurzus>Matematika</kurzus>
-			<leiras>You shall not pass!</leiras>
-		</tanar:szemely>
-		
+		</hallgato>
+		<hallgato szak="gépészmérn{ök">
+			<nev>Nelson Baker</nev>
+			<kor>25</kor>
+		</hallgato>
+	</hallgatok>
 		
 		
-	</PTE-MIK>
+</PTE-MIK>
