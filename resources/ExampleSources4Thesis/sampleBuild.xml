@@ -1,31 +1,29 @@
-	
-	
-	<project name="bdevossa_pelda" default="dist" basedir=".">
-	  
-	  <description>
+<project name="bdevossa_pelda" default="dist" basedir=".">
+
+	<description>
 		Egyszerű Ant Build Példa - By Bence Devossa
-	  </description>
-	  <!-- Globális változók a build-nek  -->
-	  <property name="src" location="src"/>
-	  <property name="build" location="build"/>
-	  <property name="dist" location="dist"/>
+	</description>
+	<!-- Globális változók a build-nek  -->
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
 
-	  <target name="init" description="Létrehozunk egy könyvtárat a fordítandó fájloknak">
+	<target name="init" description="Létrehozunk egy könyvtárat a fordítandó fájloknak">
 		<mkdir dir="${build}"/>
-	  </target>
+	</target>
 
-	  <target name="compile" depends="init" description="A forrás fordítása (Java alapú)">
+	<target name="compile" depends="init" description="A forrás fordítása (Java alapú)">
 		<javac srcdir="${src}" destdir="${build}"/>
-	  </target>
+	</target>
 
-	  <target name="dist" depends="compile" description="Az alkalmazás létrehozása">
+	<target name="dist" depends="compile" description="Az alkalmazás létrehozása">
 		<mkdir dir="${dist}/lib"/>
 		<jar jarfile="${dist}/lib/bdevossa_pelda.jar" basedir="${build}"/>
-	  </target>
+	</target>
 
-	  <target name="clean" description="Törli az elkészített alkalmazás és a fordított fájlok könyvtárait">
+	<target name="clean" description="Törli az elkészített alkalmazás és a fordított fájlok könyvtárait">
 		<delete dir="${build}"/>
 		<delete dir="${dist}"/>
-	  </target>
+	</target>
 	  
-	</project>
+</project>

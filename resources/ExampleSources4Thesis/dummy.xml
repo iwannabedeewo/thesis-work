@@ -8,11 +8,22 @@
 			<nev>Devossa Bence</nev>
 			<kor>22</kor>
 		</hallgato>
-		<hallgato szak="gépészmérn{ök">
+		<hallgato szak="gépészmérnök">
 			<nev>Nelson Baker</nev>
 			<kor>25</kor>
 		</hallgato>
 	</hallgatok>
+		
+		
+	<diak:szemely>
+		<nev>Devossa Bence</nev>
+		<kor>22</kor>
+	</diak:szemely>
+	<tanar:szemely>
+		<nev>Iac McKellen</nev>
+		<kurzus>Matematike</kurzus>
+		<leiras>You shall not pass</leiras>
+	</tanar:szemely>
 		
 		
 </PTE-MIK>
