@@ -11,13 +11,14 @@ ITEM_${num}=<@getAlAddr pou.OUTPUT.@address/><#assign num = num + 1/>
 <#list task.pous.* as pou> 
 	<#if pou?node_name?matches("statein", 'i')>
 		<#assign name><@getVal pou.@name/></#assign>
+		<#assign prior><@getVal pou.@priority/></#assign>
 [<@getAlAddr pou.INPUT.@address/>]
-SYMBOL=${name}_in
+SYMBOL=ST_${prior}_in
 COMMENT=${name} input komment
 FORMAT=-1
 
 [<@getAlAddr pou.OUTPUT.@address/>]
-SYMBOL=${name}_out
+SYMBOL=ST_${prior}_out
 COMMENT=${name} output komment
 FORMAT=-1
 	</#if>
