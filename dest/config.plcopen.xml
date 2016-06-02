@@ -600,22 +600,22 @@ ReadAxisState(Axis:=MotorExample_Motor,Enable:=TRUE,ErrorStop=&gt;Xerrorstop);
 					        		<variable name="input" address="%MX3.3">
 					                	<type>
 					                    	<BOOL />
-										</type>
-									</variable>
+														</type>
+											</variable>
 					                <variable name="output" address="%QX0.1">
 					                	<type>
 					                    	<BOOL />
-										</type>
+														</type>
 					            	</variable>
-								</localVars>
-							</interface>
-					        <body>
-					        	<ST>
-									<xhtml xmlns="http://www.w3.org/1999/xhtml">
-									output := input;
-									</xhtml>
-								</ST>
-							</body>
+										</localVars>
+								</interface>
+								<body>
+									<ST>
+										<xhtml xmlns="http://www.w3.org/1999/xhtml">
+										output := input;
+										</xhtml>
+									</ST>
+								</body>
 						</pou>
 					</data>
 			<data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">

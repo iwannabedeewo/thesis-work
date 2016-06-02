@@ -1,6 +1,6 @@
 <#include "util.ftl">
-<#assign aDateTime = .now>
 <#assign eth = app.ethernet>
+<#assign aDateTime = .now>
 [PROJECT]
 CREATED=BenceDevossa Template Export : ${aDateTime?string["dd MMMM yyyy hh:mm:ss"]} by <@getVal info.@companyName/>
 TARGET=FECX
