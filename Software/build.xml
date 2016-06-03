@@ -1,0 +1,37 @@
+<!DOCTYPE xml>
+<project name="XML2PLC Converter" basedir=".">
+
+	<property file="${basedir}/build.properties"/>
+	<import file="${antLib}/plcopen_build.xml"/>
+	<import file="${antLib}/festo_build.xml"/>
+	<import file="${antLib}/saia_build.xml"/>
+	
+	<taskdef name="freemarker" classname="freemarker.ext.ant.FreemarkerXmlTask"> 
+		<classpath>
+			<pathelement location="${freemarker.path}/freemarker.jar" />
+		</classpath>
+	</taskdef>
+	
+	<target name="init" depends="validation" description="Echoes details and properties">
+		<echo/>
+		<echo>${ant.project.name}</echo>
+		<echo>Project by: ${author}</echo>
+		<echo>Ant version: ${ant.version}</echo>
+		<echo>${description}</echo>
+		<echo/>
+	</target>
+	
+    <target name="validation" description="Validates XML">
+		<schemavalidate noNamespaceFile="lib/config.xsd" file="src/config.xml"/>
+		<echo>Config is valid!</echo>
+		<schemavalidate noNamespaceFile="lib/wiring.xsd" file="src/wiring.xml"/>
+		<echo>Wiring is valid!</echo>
+    </target>
+	
+    <target name="clean" description="Deletes previous builds">
+	    <echo>Cleaning...</echo>
+		<delete dir="${dest}"/>
+		<mkdir dir="${dest}" />
+    </target>
+    
+</project>

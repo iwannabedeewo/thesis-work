@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="plcProject">
+		<xs:complexType>
+			<xs:sequence>
+			
+				<xs:element name="projectInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="modificationDateTime" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="date" type="xs:date" use="required"/>
+									<xs:attribute name="time" type="xs:time" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="authors"> 
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="author" type="person" maxOccurs="10"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="customer" type="customer"/>
+						</xs:sequence>
+						<xs:attribute name="projectName" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="productName" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="companyName" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="version" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string"> 
+									<xs:pattern value="[0-9](.[0-9][0-9]*)+" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="creationDate" type="xs:date" use="required" />
+						<xs:attribute name="creationTime" type="xs:time" use="required" />
+						<xs:attribute name="git" type="xs:string" />
+						<xs:attribute name="interfaceBaseAddress" type="xs:integer" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="application">
+					<xs:complexType>
+						<xs:sequence>
+						
+							<xs:element name="emergency">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="INPUT" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="bit" type="xs:string" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="OUTPUT">
+											<xs:complexType>
+												<xs:attribute name="bit" type="xs:string" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="marker" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="task">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="watchdog" type="watchdog" minOccurs="0"/>
+										<xs:element name="pous">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Motor" type="pou_MOTOR" minOccurs="0"/>
+													<xs:element name="StateIn" type="pou_STATEIN"  minOccurs="0"/>
+													<xs:element name="Fuzzy" type="pou" minOccurs="0"/>
+													<xs:element name="Blinker" type="pou" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+											
+											<xs:unique name="priority_key">
+												<xs:selector xpath="*"/>
+												<xs:field xpath="@priority"/>
+											</xs:unique>
+											<xs:unique name="output_key">
+												<xs:selector xpath="*/OUTPUT"/>
+												<xs:field xpath="@address"/>
+											</xs:unique>
+											
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required" />
+									<xs:attribute name="interval" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="1"/>
+												<xs:maxInclusive value="1000" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="intervalUnit" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="ms|us"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute ref="priority" use="required" />
+									<xs:attribute name="type" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="cyclic|event|freewheeling|status" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						<xs:element name="ethernet" type="ethernet" minOccurs="0"/>
+
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element> <!-- APPLICATION END -->
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element> <!-- PLCPROJECT END -->
+
+	<!-- ============================== ComplexType Definitions ============================== -->
+	<xs:complexType name="variable">
+		<xs:attribute name="address" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[IQM]X[0-9].[0-9]"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="pou">
+		<xs:sequence>
+			<xs:element name="VISUALISATION" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IMG" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:string" use="required"/>
+								<xs:attribute name="x" type="xs:string" use="required"/>
+								<xs:attribute name="y" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="plcIndex" type="xs:string" use="required"/>
+					<xs:attribute name="page" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" default="st">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="st|ST|ld|LD|fbd|FBD" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute ref="priority" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="pou_w_output">
+		<xs:complexContent>
+			<xs:extension base="pou">
+				<xs:sequence>
+						<xs:element name="OUTPUT" type="variable" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="pou_MOTOR">
+		<xs:complexContent>
+			<xs:extension base="pou_w_output">
+				<xs:sequence>
+					<xs:element name="INPUT" type="variable" />
+					<xs:element name="STOP" type="variable" />
+			
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="pou_STATEIN">
+		<xs:complexContent>
+			<xs:extension base="pou_w_output">
+				<xs:sequence>
+					<xs:element name="INPUT" type="variable" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="watchdog">
+		<xs:attribute name="enabled" type="xs:boolean" />
+		<xs:attribute name="timeUnit" default="us">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="ms|us"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="sensitivity">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="1" />
+					<xs:maxInclusive value="1000" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="person">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute ref="telNumber" use="required" />
+		<xs:attribute ref="email" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="person_contact">
+		<xs:complexContent>
+			<xs:extension base="person">
+				<xs:attribute name="role" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="customer">
+		<xs:complexContent>
+			<xs:extension base="person">
+				<xs:sequence>
+					<xs:element name="contact" type="person_contact" maxOccurs="10"/>
+				</xs:sequence>
+				<xs:attribute name="country" type="xs:string" use="required" />
+				<xs:attribute name="zip" type="xs:integer" use="required" />
+				<xs:attribute name="city" type="xs:string" use="required" />
+				<xs:attribute name="address" type="xs:string" use="required" />
+				<xs:attribute name="web" type="xs:string" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ethernet">
+		<xs:sequence>
+			<xs:element name="address" type="ip"/>
+			<xs:element name="mask" type="ip"/>
+			<xs:element name="gateway" type="ip"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	
+	<!-- ============================== Attribute Definitions ============================== -->
+	<xs:attribute name="priority">
+		<xs:simpleType>
+			<xs:restriction base="xs:integer">
+				<xs:minInclusive value="1" />
+				<xs:maxInclusive value="1000" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+
+	<xs:attribute name="telNumber">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value="(06|\+36)[0-9]{8,9}"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+	<xs:attribute name="email">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value=".+@.+\..+"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+	
+	<xs:complexType name="ip">
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+</xs:schema>
