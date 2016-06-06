@@ -220,15 +220,8 @@
                 </interface>
                 <body>
                   <ST>
-                    <xhtml xmlns="http://www.w3.org/1999/xhtml">(* @END_DECLARATION := '0' *)
-(****************************************************************************************************************************
-	POU Title:  	Fuzzy_Logic(PRG)
-   
- 	Designer:	K. Presssley
-	Date:		01/09/09
-		
-	Function:	The function of this program is to implement a fuzzy logic control algorithm for process control..  
-****************************************************************************************************************************)
+                    <xhtml xmlns="http://www.w3.org/1999/xhtml">
+(* @END_DECLARATION := '0' *)
 (***** Loop Update Logic *****)
 (*  Get the Loop Update Time, ensure that lower limit of 1 is not exceeded and convert it into a time variable  *)
 	IF Update_Time &lt; 1 THEN
